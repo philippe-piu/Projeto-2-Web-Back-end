@@ -9,6 +9,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 //Template Mustache
 var mustacheExpress = require("mustache-express");
 var engine = mustacheExpress()
@@ -20,15 +25,9 @@ app.set("view engine", "mustache");
 const cookieParser = require("cookie-parser")
 app.use(cookieParser())
 
-//Sessão
-const session = require("express-session")
-app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
 
 app.use("/", require('./Controller/main'))
+app.use("/api/cadastro", require('./Controller/cadastro'))
 
 app.listen(process.env.PORT, ()=> {
   console.log("Servidor Inicializado")
