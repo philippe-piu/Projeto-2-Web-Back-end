@@ -27,7 +27,8 @@ app.use(cookieParser())
 
 
 app.use("/", require('./Controller/main'))
-app.use("/api/cadastro", require('./Controller/cadastro'))
+app.use("/cadastro", require('./Controller/cadastro'))
+app.use("/login", require('./Controller/login'));
 
 app.listen(process.env.PORT, ()=> {
   console.log("Servidor Inicializado")

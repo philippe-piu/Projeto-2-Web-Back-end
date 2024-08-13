@@ -12,8 +12,9 @@ const sequelize = new Sequelize({
 // Função assíncrona para sincronizar o banco de dados
 (async () => {
   try {
-     // Sincroniza os modelos com o banco de dados
+     // Sincroniza os modelos de tabelas com o banco de dados
     await sequelize.sync({ alter: true }); 
+    //alter: true faz modificações caso o banco seja alterado sem mexer no resto da estrutura do banco ou tabela
     console.log('Banco de dados sincronizado com sucesso.');
   } catch (error) {
     console.error('Erro ao sincronizar o banco de dados:', error);

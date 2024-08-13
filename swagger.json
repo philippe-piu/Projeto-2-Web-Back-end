@@ -1,3 +1,141 @@
 {
-  
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API de Usuários",
+    "description": "API para gerenciamento de usuários"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "API Local"
+    }
+  ],
+  "paths": {
+    "/cadastro": {
+      "get": {
+        "summary": "Página de cadastro de usuário",
+        "responses": {
+          "200": {
+            "description": "Retorna a página de cadastro de usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Cadastro de usuário"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cadastro de novo usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "description": "Nome do usuário",
+                    "example": "João Silva"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário",
+                    "example": "joao.silva@example.com"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "description": "Senha do usuário",
+                    "example": "123456"
+                  }
+                },
+                "required": ["nome", "email", "senha"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Usuário cadastrado com sucesso"
+                    },
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "nome": {
+                          "type": "string",
+                          "example": "João Silva"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "joao.silva@example.com"
+                        },
+                        "admin": {
+                          "type": "boolean",
+                          "example": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro na requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Todos os campos são obrigatórios"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Erro interno do servidor"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
