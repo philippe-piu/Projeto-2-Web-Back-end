@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 // Inicialização do banco
 const sequelize = new Sequelize({
@@ -9,6 +10,7 @@ const sequelize = new Sequelize({
   storage: path.join(__dirname,'..', 'database.sqlite') 
 });
 
+const Usuario = require('./Usuario');
 // Função assíncrona para sincronizar o banco de dados
 (async () => {
   try {
@@ -16,6 +18,9 @@ const sequelize = new Sequelize({
     await sequelize.sync({ alter: true }); 
     //alter: true faz modificações caso o banco seja alterado sem mexer no resto da estrutura do banco ou tabela
     console.log('Banco de dados sincronizado com sucesso.');
+
+    
+
   } catch (error) {
     console.error('Erro ao sincronizar o banco de dados:', error);
   }

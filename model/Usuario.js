@@ -1,13 +1,14 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./banco')
+const bcrypt = require('bcrypt');
+const sequelize = require('./banco');
 
-const Usuario = sequelize.define('Usuario',{
+const Usuario = sequelize.define('Usuario', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  nome:{
+  nome: {
     //Tipo de em String
     type: DataTypes.STRING,
     //Campo não pode ser nulo
@@ -27,8 +28,27 @@ const Usuario = sequelize.define('Usuario',{
     type: DataTypes.BOOLEAN,
     defaultValue: false
   }
-})
+}, {
+  hooks: {
+    afterSync: async (options) => {
+      const adminEmail = process.env.EMAIL_ADM;
+      const adminSenha = process.env.SENHA_ADM;
 
+      const adminExistente = await Usuario.findOne({ where: { email: adminEmail } });
+      if (!adminExistente) {
+        const hashedSenha = await bcrypt.hash(adminSenha, 10);
+        await Usuario.create({
+          nome: 'Admin',
+          email: adminEmail,
+          senha: hashedSenha,
+          admin: true
+        });
+        console.log('Usuário administrador criado com sucesso.');
+      } else {
+        console.log('Usuário administrador já existe.');
+      }
+    }
+  }
+});
 
-// Exporta o sequelize para ser usado em outras partes
-module.exports = Usuario; 
+module.exports = Usuario;
