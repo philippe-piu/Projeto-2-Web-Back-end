@@ -29,12 +29,17 @@ const Usuario = sequelize.define('Usuario', {
     defaultValue: false
   }
 }, {
+  //função do sequelize que se executa em um momento especifico com afterSync
   hooks: {
-    afterSync: async (options) => {
+    //afterSync crie e altera a tabela
+    afterSync: async () => {
+      //Cria tipo uma varial para armazenar o email e senha por meio desta variaveis posso usar por elas 
       const adminEmail = process.env.EMAIL_ADM;
       const adminSenha = process.env.SENHA_ADM;
 
+      //Verifica se já tem um usuario criado na tabela do banco usuario com este email
       const adminExistente = await Usuario.findOne({ where: { email: adminEmail } });
+      //Se não esxistir o usurio no inicio do banco ele cria um usuario pre definido
       if (!adminExistente) {
         const hashedSenha = await bcrypt.hash(adminSenha, 10);
         await Usuario.create({
@@ -43,9 +48,10 @@ const Usuario = sequelize.define('Usuario', {
           senha: hashedSenha,
           admin: true
         });
+        //Mensagem no terminal para criação de usuario  adm
         console.log('Usuário administrador criado com sucesso.');
       } else {
-        console.log('Usuário administrador já existe.');
+        console.log('Usuário ADM já se encontra criado no banco.');
       }
     }
   }
