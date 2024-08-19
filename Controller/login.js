@@ -3,10 +3,10 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Usuario = require('../model/Usuario');
-const { where } = require('sequelize');
+const Auth = require('../helpers/Auth');
 
 //Routa de login
-router.post('/', async(req,res) =>{
+router.post('/',  async (req,res) =>{
   //Pega  requisição o email e senha que o usuario digitou
   const {email,senha} = req.body;
 
