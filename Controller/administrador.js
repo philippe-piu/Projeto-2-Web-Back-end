@@ -98,6 +98,17 @@ router.put('/update/:id', Auth.autenticarToken, async (req,res)=>{
     // Salva as alterações no banco de dados/tabela
     await usuario.save();
 
+     // Retorna uma mensagem de sucesso
+     res.status(200).json({
+      msg: 'Usuário atualizado com sucesso',
+      usuario: {
+        id: usuario.id,
+        nome: usuario.nome,
+        email: usuario.email,
+        admin: usuario.admin
+      }
+    });
+
   }catch(error){
     //Retorna um erro na atualização do usuario
     console.error('Erro ao atualizar usuário:', error);
