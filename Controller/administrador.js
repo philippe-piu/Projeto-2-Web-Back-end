@@ -7,7 +7,6 @@ const Auth = require('../helpers/Auth');
 // Rota para criar um novo usuário administrador
 router.post('/create-adm', Auth.autenticarToken, async (req, res) => {
   
-
   // Extrai as informações do corpo da requisição
   const { nome, email, senha } = req.body;
   
@@ -44,6 +43,69 @@ router.post('/create-adm', Auth.autenticarToken, async (req, res) => {
   }
 });
 
+//Rota para alteração de usuario
+router.put('/update/:id', Auth.autenticarToken, async (req,res)=>{
+  //pega o id na url
+  const { id } = req.params;
+  //As informações passadas pelo adm no json
+  const { nome, email, senha, admin } = req.body;
+  
+  try{
+    //verifica se o usuario existe no banco de dados/tabela
+    const usuario = await Usuario.findOne({where: {id}});
+
+     // Se o usuário não achar o usuario
+     if (!usuario) {
+      //retorna a mensagem de usuario não encontrado no banco
+      return res.status(404).json({ msg: 'Usuário não encontrado' });
+     }
+
+     //Atualização de nome se o nome for informado
+     if(nome){
+      //banco recebe o nome
+      usuario.nome = nome;
+     }
+
+     // Se um novo email for fornecido
+    if (email) {
+      // Verifica se já existe um usuário com o novo email
+      const usuarioExistente = await Usuario.findOne({ where: { email } });
+
+      // Se o email já estiver em uso e não pertencer ao mesmo usuário
+      if (usuarioExistente && usuarioExistente.id !== id) {
+        //retorna o mensagem de erro
+        return res.status(400).json({ msg: 'Email já cadastrado' });
+      }
+      // Atualiza o email do usuário
+      usuario.email = email;
+    }
+
+    // Se uma nova senha for fornecida, criptografa e atualiza a senha do usuário
+    if (senha) {
+      usuario.senha = await bcrypt.hash(senha, 10);
+    }
+
+    // Se o status de administrador for fornecido
+    if (admin !== undefined) {
+      // Permite a alteração do status de administrador apenas se o token for de um administrador
+      if (!req.user || !req.user.admin) {
+        return res.status(403).json({ msg: 'Acesso negado' });
+      }
+      // Atualiza o status de administrador do usuário
+      usuario.admin = admin;
+    }
+
+    // Salva as alterações no banco de dados/tabela
+    await usuario.save();
+
+  }catch(error){
+    //Retorna um erro na atualização do usuario
+    console.error('Erro ao atualizar usuário:', error);
+    res.status(500).json({ msg: 'Erro interno do servidor' });
+  }
+
+})
+
 // Rota para excluir um usuário não administrador
 router.delete('/delete-user/:id', Auth.autenticarToken, async (req, res) => {
   //pega o id na url
@@ -75,6 +137,9 @@ router.delete('/delete-user/:id', Auth.autenticarToken, async (req, res) => {
     res.status(500).json({ msg: 'Erro interno do servidor' });
   }
 });
+
+
+
 
 
 module.exports = router;
