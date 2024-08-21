@@ -66,15 +66,13 @@ Arquivo `swagger.json` para a documentação da API. Acesse a documentação em 
 
 ## Teste Pelo Thunder Client
 
-<ul>
-<li>Cadastro de Cliente Correto <img src="/Figuras/Cadastro1.PNG" alt="Cadastro"></li>
-<li>Cadastro de Cliente Com erro <img src="/Figuras/CadastroErro.PNG" alt="Cadastro"></li>
-<li>Login <img src="/Figuras/Login e Criação do token.PNG" alt="Login"></li>
-<li>Criar Adm <img src="/Figuras/Criar Adm1.PNG" alt="Criar Adm"></li>
-<li>Criar Adm <img src="/Figuras/Criar Adm2.PNG" alt="Criar Adm"></li>
-<li>Update <img src="/Figuras/update.PNG" alt="Update"></li>
-<li>Delete <img src="/Figuras/delete.PNG" alt="Delete"></li>
-</ul>
+<p>Cadastro de Cliente Correto <img src="/Figuras/Cadastro1.PNG" alt="Cadastro"></p>
+<p>Cadastro de Cliente Com erro <img src="/Figuras/CadastroErro.PNG" alt="Cadastro"></p>
+<p>Login <img src="/Figuras/Login e Criação do token.PNG" alt="Login"></p>
+<p>Criar Adm <img src="/Figuras/Criar Adm1.PNG" alt="Criar Adm"></p>
+<p>Criar Adm <img src="/Figuras/Criar Adm2.PNG" alt="Criar Adm"></p>
+<p>Update <img src="/Figuras/update.PNG" alt="Update"></p>
+<p>Delete <img src="/Figuras/delete.PNG" alt="Delete"></p>
 
 ## Documentação pelo Swagger
 <p>ara acessar a documentação pelo Swagger, depois de inicializar o projeto, vá ao seu navegador e insira o endereço http://localhost:3000/api-docs.<p>
