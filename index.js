@@ -30,6 +30,7 @@ app.use("/", require('./Controller/main'))
 app.use("/cadastro", require('./Controller/cadastro'))
 app.use("/login", require('./Controller/login'));
 app.use("/administrador", require('./Controller/administrador'));
+app.use("/updateInfo", require('./Controller/updateInfo'));
 
 app.listen(process.env.PORT, ()=> {
   console.log("Servidor Inicializado")
