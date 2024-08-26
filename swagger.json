@@ -606,7 +606,7 @@
     }
   },
 
- "/cadLivro/create-Livro": {
+  "/cadLivro/create-livro": {
       "post": {
         "summary": "Cadastrar um novo livro",
         "description": "Permite que um administrador cadaste um novo livro na biblioteca.",
@@ -665,7 +665,7 @@
                         },
                         "preco": {
                           "type": "number",
-                          "format": "float"
+                          "format": "double"
                         },
                         "disponivel": {
                           "type": "boolean"

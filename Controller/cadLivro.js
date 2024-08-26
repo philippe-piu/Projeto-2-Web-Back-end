@@ -109,10 +109,10 @@ router.put('/update-livro/:id', Auth.autenticarToken, async (req, res) => {
     // Salva as alterações no banco de dados/tabela
     await livro.save()
 
-    console.log('LIvro atualizado');
+    console.log('Livro atualizado');
     // Retorna uma mensagem de sucesso
     res.status(200).json({
-      msg: 'Usuário atualizado com sucesso',
+      msg: 'Livro atualizado com sucesso',
       livro: {
         nomeLivro: livro.nomeLivro,
         autor: livro.autor,
