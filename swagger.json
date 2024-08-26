@@ -605,7 +605,332 @@
       }
     }
   },
-  
+
+ "/cadLivro/create-Livro": {
+      "post": {
+        "summary": "Cadastrar um novo livro",
+        "description": "Permite que um administrador cadaste um novo livro na biblioteca.",
+        "tags": ["Livros"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nomeLivro": {
+                    "type": "string",
+                    "description": "Nome do livro"
+                  },
+                  "autor": {
+                    "type": "string",
+                    "description": "Autor do livro"
+                  },
+                  "preco": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Preço do livro"
+                  }
+                },
+                "required": ["nomeLivro", "autor", "preco"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Livro cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Livro cadastrado com sucesso"
+                    },
+                    "livro": {
+                      "type": "object",
+                      "properties": {
+                        "nomeLivro": {
+                          "type": "string"
+                        },
+                        "autor": {
+                          "type": "string"
+                        },
+                        "preco": {
+                          "type": "number",
+                          "format": "float"
+                        },
+                        "disponivel": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação dos campos obrigatórios ou livro já cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cadLivro/update-livro/{id}": {
+      "put": {
+        "summary": "Atualizar informações de um livro",
+        "description": "Permite que um administrador atualize as informações de um livro existente.",
+        "tags": ["Livros"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nomeLivro": {
+                    "type": "string",
+                    "description": "Nome do livro"
+                  },
+                  "autor": {
+                    "type": "string",
+                    "description": "Autor do livro"
+                  },
+                  "preco": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Preço do livro"
+                  },
+                  "disponivel": {
+                    "type": "boolean",
+                    "description": "Disponibilidade do livro"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Livro atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Livro atualizado com sucesso"
+                    },
+                    "livro": {
+                      "type": "object",
+                      "properties": {
+                        "nomeLivro": {
+                          "type": "string"
+                        },
+                        "autor": {
+                          "type": "string"
+                        },
+                        "preco": {
+                          "type": "number",
+                          "format": "float"
+                        },
+                        "disponivel": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação ou usuário não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Livro não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cadLivro/delete-livro/{id}": {
+      "delete": {
+        "summary": "Excluir um livro",
+        "description": "Permite que um administrador exclua um livro existente da biblioteca.",
+        "tags": ["Livros"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Livro excluído com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Livro excluído com sucesso"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuário não autorizado a excluir livros",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Livro não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
   "components": {
     "securitySchemes": {
       "bearerAuth": {

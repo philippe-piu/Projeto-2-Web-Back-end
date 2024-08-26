@@ -7,10 +7,10 @@ const Auth = require('../helpers/Auth')
 //Rota de cadastro de Livro pelo Adm
 router.post('/create-Livro', Auth.autenticarToken, async (req, res) => {
   // Extrai as informações do corpo da requisição
-  const { nomeLivro, autor } = req.body
+  const { nomeLivro, autor, preco } = req.body
 
   // Verifica se todos os campos obrigatórios foram fornecidos
-  if (!nomeLivro || !autor) {
+  if (!nomeLivro || !autor || !preco) {
     //Retorna erro se algum campo não foi preenchido
     return res.status(400).json({ msg: 'Todos os campos são obrigatórios' })
   }
@@ -23,11 +23,9 @@ router.post('/create-Livro', Auth.autenticarToken, async (req, res) => {
     const usuario = await Usuario.findOne({ where: { id: usuarioId } })
     //Se o o Usuario não for um administrador ele não cadastra o livro
     if (!usuario.admin) {
-      return res
-        .status(400)
-        .json({
-          msg: 'Usuário não é administrador você não tem autorização para cadastrar livros'
-        })
+      return res.status(400).json({
+        msg: 'Usuário não é administrador você não tem autorização para cadastrar livros'
+      })
     }
 
     // Verifica se o livro já está cadastrado
@@ -42,6 +40,7 @@ router.post('/create-Livro', Auth.autenticarToken, async (req, res) => {
     const novoLivro = await Livro.create({
       nomeLivro,
       autor,
+      preco,
       disponivel: true
     })
 
@@ -58,6 +57,77 @@ router.post('/create-Livro', Auth.autenticarToken, async (req, res) => {
   }
 })
 
+//Rota para update do livro
+router.put('/update-livro/:id', Auth.autenticarToken, async (req, res) => {
+  //pega o id na url
+  const { id } = req.params
+  // Extrai as informações do corpo da requisição
+  const { nomeLivro, autor, preco, disponivel } = req.body
+
+  // Obtém o ID do usuário a partir do token de autenticação
+  const usuarioId = req.user.id
+  try {
+    // Encontrar o usuário no banco de dados pelo ID
+    const usuario = await Usuario.findOne({ where: { id: usuarioId } })
+    //Se o o Usuario não for um administrador ele não cadastra o livro
+    if (!usuario.admin) {
+      return res.status(400).json({
+        msg: 'Usuário não é administrador você não tem autorização para atualizar livros'
+      })
+    }
+
+    //verifica se o usuario existe no banco de dados/tabela
+    const livro = await Livro.findOne({ where: { id } })
+
+    // Se o usuário não achar o livro
+    if (!livro) {
+      //retorna a mensagem de usuario não encontrado no banco
+      return res.status(404).json({ msg: 'Livro não encontrado' })
+    }
+
+    //Se o nome do livro for informado
+    if (nomeLivro) {
+      //Banco recebe o nome do Livro
+      livro.nomeLivro = nomeLivro
+    }
+    //Se o nome do autor for informado
+    if (autor) {
+      //Banco recebe o nome do autor
+      livro.autor = autor
+    }
+    //Se o preco for informado
+    if (preco) {
+      //Banco recebe o preco
+      livro.preco = preco
+    }
+    //Se o disponibilidade for informado
+    if (disponivel) {
+      //Banco recebe disponivel
+      livro.disponivel = disponivel
+    }
+
+    // Salva as alterações no banco de dados/tabela
+    await livro.save()
+
+    console.log('LIvro atualizado');
+    // Retorna uma mensagem de sucesso
+    res.status(200).json({
+      msg: 'Usuário atualizado com sucesso',
+      livro: {
+        nomeLivro: livro.nomeLivro,
+        autor: livro.autor,
+        preco: livro.preco,
+        disponivel: livro.disponivel
+      }
+    })
+  } catch (error) {
+    console.error('Erro ao editar livro:', error)
+    //Em caso de erro manda uma mensagem para erro
+    res.status(500).json({ msg: 'Erro interno do servidor' })
+  }
+})
+
+//Rota para deletar livro do banco/tabela
 router.delete('/delete-livro/:id', Auth.autenticarToken, async (req, res) => {
   //pega o id na url ndo livro
   const { id } = req.params
@@ -70,11 +140,9 @@ router.delete('/delete-livro/:id', Auth.autenticarToken, async (req, res) => {
     const usuario = await Usuario.findOne({ where: { id: usuarioId } })
     //Se o o Usuario não for um administrador ele não cadastra o livro
     if (!usuario.admin) {
-      return res
-        .status(400)
-        .json({
-          msg: 'Usuário não é administrador você não tem autorização para cadastrar livros'
-        })
+      return res.status(400).json({
+        msg: 'Usuário não é administrador você não tem autorização para excluir livros'
+      })
     }
 
     // Busca o usuário no banco de dados pelo ID
