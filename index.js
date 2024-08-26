@@ -46,6 +46,7 @@ app.use("/cadastro", require('./Controller/cadastro'))
 app.use("/login", require('./Controller/login'));
 app.use("/administrador", require('./Controller/administrador'));
 app.use("/updateInfo", require('./Controller/updateInfo'));
+app.use("/cadLivro", require('./Controller/cadLivro'));
 
 app.listen(process.env.PORT, ()=> {
   console.log("Servidor Inicializado")

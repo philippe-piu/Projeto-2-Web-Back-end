@@ -10,10 +10,10 @@ router.get("/", async (req, res) => {
 
 // Rota para cadastro de usuários
 router.post("/", async (req, res) => { 
-  const { nome, email, senha, admin } = req.body;
+  const { nome, email, senha } = req.body;
 
   //Se alguns deste campos não for preenchido ele retorna uma mensagem informando que falta preencher algum campos
-  if (!nome || !email || !senha || !admin) {
+  if (!nome || !email || !senha ) {
     return res.status(400).json({ msg: "Todos os campos são obrigatórios" });
   }
 
@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
       nome,
       email,
       senha: hashedSenha,
-      admin
+      admin:false
     });
 
     res.status(201).json({ msg: "Usuário cadastrado com sucesso", usuario: novoUsuario });
