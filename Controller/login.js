@@ -8,7 +8,7 @@ const Auth = require('../helpers/Auth');
 //Routa de login
 router.post('/',  async (req,res) =>{
   //Pega  requisição o email e senha que o usuario digitou
-  const {email,senha} = req.body;
+  const {email,senha} = req.body; 
 
   //Se não tiver colocado email ou senha da um erro
   if(!email || !senha){

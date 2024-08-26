@@ -1,6 +1,21 @@
 //Requires gerais
-const path = require("path")
-require("dotenv").config()
+const path = require("path");
+require("dotenv").config();
+
+//Conectando o banco
+(async () => {
+  const banco = require('./helpers/banco');
+  const Usuario = require('./model/Usuario');
+  const Livro = require('./model/Livro');
+
+  try {
+      const resultado = await banco.sync();
+      console.log(resultado);
+      console.log('Banco de dados sincronizado com sucesso.');
+  } catch (error) {
+    console.error('Erro ao sincronizar o banco de dados:', error);
+  }
+})();
 
 //Express
 const express = require('express')

@@ -106,7 +106,7 @@ router.put('/update/:id', Auth.autenticarToken, async (req,res)=>{
         nome: usuario.nome,
         email: usuario.email,
         admin: usuario.admin
-      }
+      } 
     });
 
   }catch(error){
