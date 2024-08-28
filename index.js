@@ -7,7 +7,7 @@ require("dotenv").config();
   const banco = require('./helpers/banco');
   const Usuario = require('./model/Usuario');
   const Livro = require('./model/Livro');
-  
+  const Emprestimo = require('./model/Emprestimo');
   
   try {
     
