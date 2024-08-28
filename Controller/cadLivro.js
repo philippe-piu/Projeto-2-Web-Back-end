@@ -7,10 +7,10 @@ const Auth = require('../helpers/Auth')
 //Rota de cadastro de Livro pelo Adm
 router.post('/create-Livro', Auth.autenticarToken, async (req, res) => {
   // Extrai as informações do corpo da requisição
-  const { nomeLivro, autor, preco } = req.body
+  const { nomeLivro, autor } = req.body
 
   // Verifica se todos os campos obrigatórios foram fornecidos
-  if (!nomeLivro || !autor || !preco) {
+  if (!nomeLivro || !autor) {
     //Retorna erro se algum campo não foi preenchido
     return res.status(400).json({ msg: 'Todos os campos são obrigatórios' })
   }
@@ -40,7 +40,6 @@ router.post('/create-Livro', Auth.autenticarToken, async (req, res) => {
     const novoLivro = await Livro.create({
       nomeLivro,
       autor,
-      preco,
       disponivel: true
     })
 
@@ -62,7 +61,7 @@ router.put('/update-livro/:id', Auth.autenticarToken, async (req, res) => {
   //pega o id na url
   const { id } = req.params
   // Extrai as informações do corpo da requisição
-  const { nomeLivro, autor, preco, disponivel } = req.body
+  const { nomeLivro, autor, disponivel } = req.body
 
   // Obtém o ID do usuário a partir do token de autenticação
   const usuarioId = req.user.id
@@ -95,11 +94,7 @@ router.put('/update-livro/:id', Auth.autenticarToken, async (req, res) => {
       //Banco recebe o nome do autor
       livro.autor = autor
     }
-    //Se o preco for informado
-    if (preco) {
-      //Banco recebe o preco
-      livro.preco = preco
-    }
+    
     //Se o disponibilidade for informado
     if (disponivel) {
       //Banco recebe disponivel
@@ -116,7 +111,6 @@ router.put('/update-livro/:id', Auth.autenticarToken, async (req, res) => {
       livro: {
         nomeLivro: livro.nomeLivro,
         autor: livro.autor,
-        preco: livro.preco,
         disponivel: livro.disponivel
       }
     })

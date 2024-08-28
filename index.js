@@ -7,8 +7,10 @@ require("dotenv").config();
   const banco = require('./helpers/banco');
   const Usuario = require('./model/Usuario');
   const Livro = require('./model/Livro');
-
+  
+  
   try {
+    
       const resultado = await banco.sync();
       console.log(resultado);
       console.log('Banco de dados sincronizado com sucesso.');
@@ -47,6 +49,7 @@ app.use("/login", require('./Controller/login'));
 app.use("/administrador", require('./Controller/administrador'));
 app.use("/updateInfo", require('./Controller/updateInfo'));
 app.use("/cadLivro", require('./Controller/cadLivro'));
+app.use("/install", require('./Controller/install'));
 
 app.listen(process.env.PORT, ()=> {
   console.log("Servidor Inicializado")
