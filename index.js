@@ -51,6 +51,7 @@ app.use("/updateInfo", require('./Controller/updateInfo'));
 app.use("/cadLivro", require('./Controller/cadLivro'));
 app.use("/install", require('./Controller/install'));
 app.use("/emprestimos", require('./Controller/emprestimos'));
+app.use("/pesquisa", require('./Controller/pesquisa'));
 
 
 app.listen(process.env.PORT, ()=> {
