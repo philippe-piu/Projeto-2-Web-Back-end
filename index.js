@@ -11,7 +11,7 @@ require("dotenv").config();
   
   try {
     
-      const resultado = await banco.sync({ force: true });
+      const resultado = await banco.sync();
       console.log(resultado);
       console.log('Banco de dados sincronizado com sucesso.');
   } catch (error) {

@@ -21,7 +21,7 @@ router.get('/pes-emprestimo', async (req, res) => {
     //Tipo são dois emprestimos daew ele pega faz dois vetores com as informações abaixo
     const emprestimosF = emprestimos.map(emprestimo => ({
       idEmprestimo: emprestimo.idEmprestimo,
-      //entra no emprestimo pega no usuario o nome 
+      //entra no emprestimo pega no usuario o nome
       nomeUsuario: emprestimo.usuario.nome,
       nomeLivro: emprestimo.livro.nomeLivro,
       dataEmprestimo: emprestimo.dataEmprestimo,
@@ -29,9 +29,22 @@ router.get('/pes-emprestimo', async (req, res) => {
     }))
 
     //Imprime informações na ordem que que eu defini na parte de cima
+    console.log('Livros emprestado: \n', emprestimosF)
     res.json(emprestimosF)
   } catch (error) {
     console.error('Erro ao buscar empréstimos', error)
+    //Em caso de erro manda uma mensagem para erro
+    res.status(500).json({ msg: 'Erro interno do servidor' })
+  }
+})
+
+//Rota que conta quantos livros foram emprestados
+router.get('/quant-livros', async (req, res) => {
+  try {
+    const quantidade = await Emprestimo.count()
+    res.status(201).json({ msg: 'Foram emprestados ', quantidade })
+  } catch (error) {
+    console.error('Erro ao buscar quantidade de livros', error)
     //Em caso de erro manda uma mensagem para erro
     res.status(500).json({ msg: 'Erro interno do servidor' })
   }
