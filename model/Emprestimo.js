@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize')
-const sequelize = require('../helpers/banco')
-const Usuario = require('./Usuario')
-const Livro = require('./Livro')
+const { DataTypes } = require('sequelize');
+const sequelize = require('../helpers/banco');
+const Usuario = require('./Usuario');
+const Livro = require('./Livro');
 
 const Emprestimo = sequelize.define('Emprestimo', {
   idEmprestimo: {
@@ -12,9 +12,8 @@ const Emprestimo = sequelize.define('Emprestimo', {
   usuarioId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    //referencia do id da tabela Usuário
     references: {
-      model: 'Usuario',
+      model: 'Usuario', // Nome da tabela referenciada
       key: 'id'
     }
   },
@@ -22,7 +21,7 @@ const Emprestimo = sequelize.define('Emprestimo', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Livro',
+      model: 'Livro', // Nome da tabela referenciada
       key: 'id'
     }
   },
@@ -32,8 +31,20 @@ const Emprestimo = sequelize.define('Emprestimo', {
   },
   dataDevolucaoEmprestimo: {
     type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
+    allowNull: true
   }
-})
+}, {
+  tableName: 'Emprestimo' // Especifica o nome da tabela
+});
 
-module.exports = Emprestimo
+Emprestimo.belongsTo(Usuario, {
+  foreignKey: 'usuarioId',
+  as: 'usuario'
+});
+
+Emprestimo.belongsTo(Livro, {
+  foreignKey: 'livroId',
+  as: 'livro'
+});
+
+module.exports = Emprestimo;
