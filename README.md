@@ -16,14 +16,14 @@ Este projeto é uma API para um sistema de gerenciamento de biblioteca. Ele perm
 
 1. De um npm install para instalar o a node modules 
 2. De um npm start para inicializar o projeto
-3. Utilize o http://localhost:3000/
 4. Crie na raiz do projeto um arquivo .env e coloque suas informações ou utilize as de baixo
-
 PORT=3000
 DB_DIALECT=sqlite
 EMAIL_ADM=adm@gmail.com
 SENHA_ADM=123456
 JWT_SECRET=teste3!@
+
+
 
 ## Swagger
 O projeto utiliza o Swagger para documentação da API. A documentação está disponível em http://localhost:3000/api-docs quando o servidor está em execução. O Swagger oferece uma interface interativa onde você pode explorar os endpoints da API e ver exemplos de requisições e respostas.

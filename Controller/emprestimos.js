@@ -63,4 +63,31 @@ router.post('/emprestar-livro', Auth.autenticarToken, async (req, res) => {
   }
 })
 
+// Rota para excluir um empréstimo
+router.delete('/delete/:id', Auth.autenticarToken, async (req, res) => {
+ // Pega na URL
+  const { id } = req.params;
+
+  try {
+    //verico o banco o primeiro objeto encontrado no banco com e verifico se é o id passado na url
+    const emprestimo = await Emprestimo.findOne({ where: { idEmprestimo: id } });
+
+    //se o o id não existir não encontra o emprestimo
+    if (!emprestimo) {
+      return res.status(404).json({ msg: 'Empréstimo não encontrado' });
+    }
+
+    //destroy o emprestimo no banco
+    await Emprestimo.destroy({ where: { idEmprestimo: id } });
+
+    //mensagem de sucesso
+    console.log('Empréstimo excluído com sucesso');
+    res.status(200).json({ msg: 'Empréstimo excluído com sucesso' });
+  } catch (error) {
+    console.error('Erro ao excluir o empréstimo:', error);
+    res.status(500).json({ msg: 'Erro interno do servidor' });
+  }
+});
+
+
 module.exports = router

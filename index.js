@@ -2,6 +2,7 @@
 const path = require("path");
 require("dotenv").config();
 
+
 //Conectando o banco
 (async () => {
   const banco = require('./helpers/banco');

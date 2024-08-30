@@ -4,8 +4,10 @@ const Usuario = require('../model/Usuario')
 const Livro = require('../model/Livro')
 const bcrypt = require('bcrypt')
 
+
 router.get('/', async (req, res) => {
   try {
+    
     // Cria um tipo de tipo de variavel que verifica se esses emails já existem no banco de dados
     const usuariosExistentes = await Usuario.findAll({
       where: {
