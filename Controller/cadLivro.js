@@ -4,7 +4,7 @@ const Usuario = require('../model/Usuario')
 const Livro = require('../model/Livro')
 const Auth = require('../helpers/Auth')
 
-//Rota de cadastro de Livro pelo Adm
+//Rota de cadastro de Livro pelo Adm SOmente ADM CADASTRA LIVRO
 router.post('/create-Livro', Auth.autenticarToken, async (req, res) => {
   // Extrai as informações do corpo da requisição
   const { nomeLivro, autor } = req.body

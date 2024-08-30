@@ -14,6 +14,25 @@ require("dotenv").config();
       const resultado = await banco.sync();
       console.log(resultado);
       console.log('Banco de dados sincronizado com sucesso.');
+
+      const adminEmail = process.env.EMAIL_ADM;
+      const adminSenha = process.env.SENHA_ADM;
+      //Verifica se esse email de adm existe
+      const adminExistente = await Usuario.findOne({ where: { email: adminEmail } });
+      //Se não existir o email
+      if (!adminExistente) {
+        const hashedSenha = await bcrypt.hash(adminSenha, 10);
+        await Usuario.create({
+          nome: 'Admin',
+          email: adminEmail,
+          senha: hashedSenha,
+          admin: true
+        });
+        console.log('Usuário administrador criado com sucesso.');
+      } else {
+        console.log('Usuário ADM já se encontra criado no banco.');
+      }
+      
   } catch (error) {
     console.error('Erro ao sincronizar o banco de dados:', error);
   }

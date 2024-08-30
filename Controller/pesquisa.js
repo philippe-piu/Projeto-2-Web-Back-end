@@ -38,16 +38,7 @@ router.get('/pes-emprestimo', async (req, res) => {
   }
 })
 
-//Rota que conta quantos livros foram emprestados
-router.get('/quant-livros', async (req, res) => {
-  try {
-    const quantidade = await Emprestimo.count()
-    res.status(201).json({ msg: 'Foram emprestados ', quantidade })
-  } catch (error) {
-    console.error('Erro ao buscar quantidade de livros', error)
-    //Em caso de erro manda uma mensagem para erro
-    res.status(500).json({ msg: 'Erro interno do servidor' })
-  }
-})
+
+
 
 module.exports = router

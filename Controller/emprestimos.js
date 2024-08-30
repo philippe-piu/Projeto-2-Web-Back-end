@@ -41,7 +41,9 @@ router.post('/emprestar-livro', Auth.autenticarToken, async (req, res) => {
     }
 
     //Criação do emprestimo
+    //multiplos registro Criados
     const emprestimos = await Promise.all(
+      //Criando um array/vetor de livros
       livro.map(livroId =>
         Emprestimo.create({
           usuarioId: usuarioIdentificacao,

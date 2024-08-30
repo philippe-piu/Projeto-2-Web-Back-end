@@ -12,8 +12,9 @@ const Emprestimo = sequelize.define('Emprestimo', {
   usuarioId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    // Nome da tabela referenciada
     references: {
-      model: 'Usuario', // Nome da tabela referenciada
+      model: 'Usuario', 
       key: 'id'
     }
   },
@@ -21,7 +22,8 @@ const Emprestimo = sequelize.define('Emprestimo', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Livro', // Nome da tabela referenciada
+      // Nome da tabela referenciada
+      model: 'Livro', 
       key: 'id'
     }
   },
@@ -34,14 +36,18 @@ const Emprestimo = sequelize.define('Emprestimo', {
     allowNull: true
   }
 }, {
-  tableName: 'Emprestimo' // Especifica o nome da tabela
+  // Especifica o nome da tabela
+  tableName: 'Emprestimo' 
 });
 
+//Cada emprestimo esta associado a Usuario
+//belongsTo muitos para um
 Emprestimo.belongsTo(Usuario, {
   foreignKey: 'usuarioId',
   as: 'usuario'
 });
 
+//Cada emprestimo esta associado a livro
 Emprestimo.belongsTo(Livro, {
   foreignKey: 'livroId',
   as: 'livro'

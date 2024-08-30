@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../helpers/banco');
 
+
 const Livro = sequelize.define('Livro', {
   id: {
     type: DataTypes.INTEGER,
@@ -23,5 +24,7 @@ const Livro = sequelize.define('Livro', {
 }, {
   tableName: 'Livro' 
 });
+
+
 
 module.exports = Livro;

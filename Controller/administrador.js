@@ -4,7 +4,8 @@ const Usuario = require('../model/Usuario');
 const bcrypt = require('bcrypt');
 const Auth = require('../helpers/Auth');
 
-// Rota para criar um novo usuário administrador
+// Rota para criar um novo usuário administrador do Zero com as informações fornecidas nessa rota
+//se o token estiver invalido ele ja para no Auth.autenticarToken e não executa o resto
 router.post('/create-adm', Auth.autenticarToken, async (req, res) => {
   
   // Extrai as informações do corpo da requisição
@@ -17,9 +18,11 @@ router.post('/create-adm', Auth.autenticarToken, async (req, res) => {
   }
   
   try {
+    //Verifica se o email que foi passado existe no banco na tabela Usuario
     //Verifica se existe o email fornecido
     const usuarioExistente = await Usuario.findOne({ where: { email } });
 
+    //Se esse usuario já estiver no banco de dados quer dizer que ele não pode ser criado do zero
     if (usuarioExistente) {
       return res.status(400).json({ msg: 'Email já cadastrado' });
     }
@@ -43,7 +46,7 @@ router.post('/create-adm', Auth.autenticarToken, async (req, res) => {
   }
 });
 
-//Rota para alteração de usuario
+//Rota para alteração de usuario Transforma um usuario ja criado que não é adm em adm
 router.put('/update/:id', Auth.autenticarToken, async (req,res)=>{
   //pega o id na url
   const { id } = req.params;
@@ -88,6 +91,7 @@ router.put('/update/:id', Auth.autenticarToken, async (req,res)=>{
     // Se o status de administrador for fornecido
     if (admin !== undefined) {
       // Permite a alteração do status de administrador apenas se o token for de um administrador
+      //req.user requisição do token que estsendo usado do usuario
       if (!req.user || !req.user.admin) {
         return res.status(403).json({ msg: 'Acesso negado' });
       }
